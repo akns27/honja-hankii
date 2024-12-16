@@ -221,7 +221,12 @@ class DatabaseHelper {
         'hasWifi': 1,
         'hasSocket': 1,
         'openingHours': '11:00-21:00',
-        'imageUrl': 'bills_gangnam.jpeg'
+        'imageUrl': 'bills_gangnam.jpeg',
+        // 'menuItems': [
+        //   {'name': '크림파스타', 'price': 18000, 'imageUrl': 'cream_pasta.jpeg'},
+        //   {'name': '토마토파스타', 'price': 18000, 'imageUrl': 'tomato_pasta.jpeg'},
+        //   {'name': '까르보나라', 'price': 18000, 'imageUrl': 'carbonara.jpeg'},
+        // ],
       },
       {
         'name': '몽중헌 공덕점',
@@ -233,6 +238,11 @@ class DatabaseHelper {
         'hasSocket': 1,
         'openingHours': '11:30-20:30',
         'imageUrl': 'mongjungheon-gongduk.jpeg',
+        // 'menuItems': [
+        //   {'name': '크림파스타', 'price': 18000, 'imageUrl': 'cream_pasta.jpeg'},
+        //   {'name': '토마토파스타', 'price': 18000, 'imageUrl': 'tomato_pasta.jpeg'},
+        //   {'name': '까르보나라', 'price': 18000, 'imageUrl': 'carbonara.jpeg'},
+        // ],
       },
       {
         'name': '미에뜨',
@@ -244,6 +254,11 @@ class DatabaseHelper {
         'hasSocket': 0,
         'openingHours': '10:30-21:30',
         'imageUrl': 'miette.jpeg',
+        // 'menuItems': [
+        //   {'name': '크림파스타', 'price': 18000, 'imageUrl': 'cream_pasta.jpeg'},
+        //   {'name': '토마토파스타', 'price': 18000, 'imageUrl': 'tomato_pasta.jpeg'},
+        //   {'name': '까르보나라', 'price': 18000, 'imageUrl': 'carbonara.jpeg'},
+        // ],
       },
       {
         'name': '베타서비스',
@@ -255,6 +270,11 @@ class DatabaseHelper {
         'hasSocket': 1,
         'openingHours': '11:00-22:00',
         'imageUrl': 'beta-service.jpeg',
+        // 'menuItems': [
+        //   {'name': '크림파스타', 'price': 18000, 'imageUrl': 'cream_pasta.jpeg'},
+        //   {'name': '토마토파스타', 'price': 18000, 'imageUrl': 'tomato_pasta.jpeg'},
+        //   {'name': '까르보나라', 'price': 18000, 'imageUrl': 'carbonara.jpeg'},
+        // ],
       },
     ];
 

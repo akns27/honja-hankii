@@ -7,6 +7,8 @@ final restaurantRepositoryProvider = Provider<RestaurantRepository>((ref) {
   return RestaurantRepository();
 });
 
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
 // 더미 데이터 생성
 final List<Restaurant> _dummyRestaurants = [
   Restaurant(
@@ -53,18 +55,34 @@ final restaurantsProvider = FutureProvider<List<Restaurant>>((ref) async {
 // 선택된 카테고리를 관리하는 Provider
 final selectedCategoryProvider = StateProvider<String>((ref) => '전체');
 
-// 필터링된 식당 목록을 제공하는 Provider
+// 필터링된 식당 목록을 제공하는 Provider 수정
 final filteredRestaurantsProvider =
     Provider<AsyncValue<List<Restaurant>>>((ref) {
   final restaurants = ref.watch(restaurantsProvider);
   final category = ref.watch(selectedCategoryProvider);
+  final query = ref.watch(searchQueryProvider); // 검색어 추가
 
   return restaurants.when(
     data: (list) {
-      if (category == '전체') return AsyncValue.data(list);
-      return AsyncValue.data(
-        list.where((restaurant) => restaurant.category == category).toList(),
-      );
+      var filteredList = list;
+
+      // 카테고리 필터링
+      if (category != '전체') {
+        filteredList = filteredList
+            .where((restaurant) => restaurant.category == category)
+            .toList();
+      }
+
+      // 검색어 필터링
+      if (query.isNotEmpty) {
+        filteredList = filteredList
+            .where((restaurant) =>
+                restaurant.name.toLowerCase().contains(query.toLowerCase()) ||
+                restaurant.address.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+
+      return AsyncValue.data(filteredList);
     },
     loading: () => const AsyncValue.loading(),
     error: (err, stack) => AsyncValue.error(err, stack),

@@ -361,6 +361,70 @@ class RestaurantDetailScreen extends ConsumerWidget {
                           height: 1.5,
                         ),
                       ),
+                      // 메뉴 섹션
+                      if (restaurant.menuItems != null &&
+                          restaurant.menuItems!.isNotEmpty) ...[
+                        const Text(
+                          '대표 메뉴',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: restaurant.menuItems!.length,
+                          separatorBuilder: (context, index) => const Divider(),
+                          itemBuilder: (context, index) {
+                            final menu = restaurant.menuItems![index];
+                            return Row(
+                              children: [
+                                // 메뉴 이미지
+                                if (menu.imageUrl != null)
+                                  Container(
+                                    width: 80,
+                                    height: 80,
+                                    margin: const EdgeInsets.only(right: 12),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/restaurant/${menu.imageUrl}'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                // 메뉴 정보
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        menu.name,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${menu.price}원',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 24),
+                      ],
                     ],
                   ),
                 ),

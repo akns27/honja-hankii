@@ -1,3 +1,31 @@
+class MenuItem {
+  final String name;
+  final int price;
+  final String? imageUrl;
+
+  MenuItem({
+    required this.name,
+    required this.price,
+    this.imageUrl,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'price': price,
+      'imageUrl': imageUrl,
+    };
+  }
+
+  factory MenuItem.fromMap(Map<String, dynamic> map) {
+    return MenuItem(
+      name: map['name'],
+      price: map['price'],
+      imageUrl: map['imageUrl'],
+    );
+  }
+}
+
 class Restaurant {
   final int? id;
   final String name;
@@ -9,6 +37,7 @@ class Restaurant {
   final bool hasSocket;
   final String openingHours;
   final String? imageUrl;
+  final List<MenuItem>? menuItems;
 
   Restaurant({
     this.id,
@@ -21,6 +50,7 @@ class Restaurant {
     required this.hasSocket,
     required this.openingHours,
     this.imageUrl,
+    this.menuItems,
   });
 
   // JSON 변환을 위한 메서드
@@ -36,6 +66,7 @@ class Restaurant {
       'hasSocket': hasSocket ? 1 : 0,
       'openingHours': openingHours,
       'imageUrl': imageUrl,
+      'menuItems': menuItems?.map((item) => item.toMap()).toList(),
     };
   }
 
@@ -52,6 +83,10 @@ class Restaurant {
       hasSocket: map['hasSocket'] == 1,
       openingHours: map['openingHours'],
       imageUrl: map['imageUrl'],
+      menuItems: map['menuItems'] != null
+          ? List<MenuItem>.from(
+              map['menuItems']?.map((x) => MenuItem.fromMap(x)))
+          : null,
     );
   }
 }
