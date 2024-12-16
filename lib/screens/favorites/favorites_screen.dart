@@ -1,156 +1,22 @@
-// import 'package:flutter/material.dart';
-//
-// class FavoritesScreen extends StatelessWidget {
-//   const FavoritesScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: SafeArea(
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             // 상단 타이틀
-//             const Padding(
-//               padding: EdgeInsets.all(16.0),
-//               child: Text(
-//                 '즐겨찾기',
-//                 style: TextStyle(
-//                   fontSize: 24,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//               ),
-//             ),
-//
-//             // 즐겨찾기 리스트
-//             Expanded(
-//               child: ListView.builder(
-//                 padding: const EdgeInsets.all(16),
-//                 itemCount: 10, // 임시 데이터 개수
-//                 itemBuilder: (context, index) {
-//                   return Card(
-//                     margin: const EdgeInsets.only(bottom: 16),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         // 식당 이미지
-//                         Stack(
-//                           children: [
-//                             Container(
-//                               height: 200,
-//                               width: double.infinity,
-//                               decoration: BoxDecoration(
-//                                 borderRadius: const BorderRadius.vertical(
-//                                   top: Radius.circular(4),
-//                                 ),
-//                                 image: DecorationImage(
-//                                   image: AssetImage(
-//                                       'assets/images/food_placeholder.jpg'),
-//                                   fit: BoxFit.cover,
-//                                 ),
-//                               ),
-//                             ),
-//                             // 즐겨찾기 버튼 (이미 즐겨찾기된 상태)
-//                             Positioned(
-//                               top: 8,
-//                               right: 8,
-//                               child: IconButton(
-//                                 icon: const Icon(
-//                                   Icons.favorite,
-//                                   color: Colors.red,
-//                                 ),
-//                                 onPressed: () {
-//                                   // 즐겨찾기 제거 기능 구현
-//                                 },
-//                                 style: IconButton.styleFrom(
-//                                   backgroundColor: Colors.white,
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         // 식당 정보
-//                         Padding(
-//                           padding: const EdgeInsets.all(12),
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               const Text(
-//                                 '식당 이름',
-//                                 style: TextStyle(
-//                                   fontSize: 16,
-//                                   fontWeight: FontWeight.bold,
-//                                 ),
-//                               ),
-//                               const SizedBox(height: 4),
-//                               Row(
-//                                 children: [
-//                                   const Icon(
-//                                     Icons.star,
-//                                     size: 16,
-//                                     color: Colors.amber,
-//                                   ),
-//                                   const Text(
-//                                     ' 4.2',
-//                                     style: TextStyle(
-//                                       fontWeight: FontWeight.bold,
-//                                     ),
-//                                   ),
-//                                   const SizedBox(width: 8),
-//                                   Text(
-//                                     '음식 분야',
-//                                     style: TextStyle(
-//                                       color: Colors.grey[600],
-//                                     ),
-//                                   ),
-//                                   const SizedBox(width: 8),
-//                                   Text(
-//                                     '지역',
-//                                     style: TextStyle(
-//                                       color: Colors.grey[600],
-//                                     ),
-//                                   ),
-//                                 ],
-//                               ),
-//                               const SizedBox(height: 4),
-//                               Text(
-//                                 '12,000원~25,000원',
-//                                 style: TextStyle(
-//                                   color: Colors.grey[600],
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   );
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../restaurant/restaurant_detail_screen.dart';
+import '../../providers/restaurant_provider.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends ConsumerWidget {
   const FavoritesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final restaurantsAsync = ref.watch(restaurantsProvider);
+    final favorites = ref.watch(favoritesProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 상단 타이틀
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
@@ -161,124 +27,143 @@ class FavoritesScreen extends StatelessWidget {
                 ),
               ),
             ),
-
-            // 즐겨찾기 리스트
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RestaurantDetailScreen(
-                            restaurantId: index,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // 식당 이미지
-                          Stack(
-                            children: [
-                              Container(
-                                height: 200,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(4),
-                                  ),
-                                  color: Colors.grey[200],
-                                ),
-                                child: Icon(
-                                  Icons.restaurant,
-                                  size: 50,
-                                  color: Colors.grey[400],
-                                ),
+              child: restaurantsAsync.when(
+                data: (restaurants) {
+                  // 즐겨찾기된 식당만 필터링
+                  final favoriteRestaurants = restaurants
+                      .where((restaurant) => favorites.contains(restaurant.id))
+                      .toList();
+
+                  if (favoriteRestaurants.isEmpty) {
+                    return const Center(
+                      child: Text('즐겨찾기한 식당이 없습니다.'),
+                    );
+                  }
+
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: favoriteRestaurants.length,
+                    itemBuilder: (context, index) {
+                      final restaurant = favoriteRestaurants[index];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RestaurantDetailScreen(
+                                restaurantId: restaurant.id!,
                               ),
-                              // 즐겨찾기 버튼
-                              Positioned(
-                                top: 8,
-                                right: 8,
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
+                            ),
+                          );
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    height: 200,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(4),
+                                      ),
+                                    ),
+                                    child: restaurant.imageUrl != null
+                                        ? Image.asset(
+                                            'assets/images/restaurant/${restaurant.imageUrl}',
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Icon(
+                                            Icons.restaurant,
+                                            size: 50,
+                                            color: Colors.grey[400],
+                                          ),
                                   ),
-                                  onPressed: () {
-                                    // 즐겨찾기 제거 기능 구현
-                                  },
-                                  style: IconButton.styleFrom(
-                                    backgroundColor: Colors.white,
+                                  Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.favorite,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () {
+                                        ref
+                                            .read(favoritesProvider.notifier)
+                                            .toggleFavorite(restaurant.id!);
+                                      },
+                                      style: IconButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                    ),
                                   ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      restaurant.name,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.star,
+                                          size: 16,
+                                          color: Colors.amber,
+                                        ),
+                                        Text(
+                                          ' ${restaurant.rating}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          restaurant.category,
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            restaurant.address,
+                                            style: TextStyle(
+                                              color: Colors.grey[600],
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                          // 식당 정보
-                          Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '식당 이름',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star,
-                                      size: 16,
-                                      color: Colors.amber,
-                                    ),
-                                    const Text(
-                                      ' 4.2',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      '음식 분야',
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      '지역',
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  '12,000원~25,000원',
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    },
                   );
                 },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                error: (error, stack) => Center(
+                  child: Text('오류가 발생했습니다: $error'),
+                ),
               ),
             ),
           ],

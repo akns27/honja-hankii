@@ -207,11 +207,6 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.blue,
-                    ),
-                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         '맛집을 검색해보세요',
@@ -278,11 +273,10 @@ class HomeScreen extends ConsumerWidget {
                                   borderRadius: const BorderRadius.vertical(
                                     top: Radius.circular(4),
                                   ),
-                                  color: Colors.grey[200],
                                 ),
                                 child: restaurant.imageUrl != null
-                                    ? Image.network(
-                                        restaurant.imageUrl!,
+                                    ? Image.asset(
+                                        'assets/images/restaurant/${restaurant.imageUrl}',
                                         fit: BoxFit.cover,
                                       )
                                     : Icon(
