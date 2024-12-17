@@ -1,38 +1,8 @@
-// import 'package:flutter/material.dart';
-// import 'screens/main_screen.dart';
-//
-// void main() {
-//   runApp(const MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: '혼자 한 끼',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//         useMaterial3: true,
-//       ),
-//       home: const MainScreen(),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/main_screen.dart';
 import 'database/database_helper.dart';
 
-// void main() {
-//   runApp(
-//     const ProviderScope(
-//       // Riverpod 설정을 위해 ProviderScope 추가
-//       child: MyApp(),
-//     ),
-//   );
-// }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -40,6 +10,7 @@ void main() async {
   await DatabaseHelper.instance.database;
   await DatabaseHelper.instance.insertSampleData();
 
+//  lib/main.dart
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -56,7 +27,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: '혼자 한 끼',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // 기본 색상을 #54ACFF로 변경
+        primaryColor: const Color(0xFF54ACFF),
+        // Material3 디자인의 색상 시스템 설정
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF54ACFF),
+        ),
         useMaterial3: true,
       ),
       home: const MainScreen(),
